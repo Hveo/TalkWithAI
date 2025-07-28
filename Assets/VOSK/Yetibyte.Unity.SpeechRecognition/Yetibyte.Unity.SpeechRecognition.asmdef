@@ -1,0 +1,21 @@
+{
+    "name": "Yetibyte.Unity.SpeechRecognition",
+    "rootNamespace": "",
+    "references": [
+        "GUID:cf7c06d97d9c3b7db881733f839f5ae3",
+        "GUID:e24b8c7d32156a9ee9a0f7796a734ef3",
+        "GUID:bb02446dbb77fcf4699265c22e86c3e8"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Vosk.dll",
+        "Yetibyte.Compression.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
