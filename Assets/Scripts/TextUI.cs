@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using LLMUnity;
 using Yetibyte.Unity.SpeechRecognition;
 
 public class TextUI : MonoBehaviour
@@ -10,22 +11,25 @@ public class TextUI : MonoBehaviour
     public Image textContainer;
     public TextMeshProUGUI textMesh;
     public ScrollRect textScroller;
+    public LLMCharacter character; //might need a dispatcher if we want several characters
     public float BGAlpha = 0.25f;
     public float TimeBeforeHiding = 10.0f;
 
     private float idleTime;
     private Vector2 initialContentSize;
+    private string AIAnswer = string.Empty;
+    private string currentChat = string.Empty;
 
     private void Start()
     {
         textMesh.text = string.Empty;
         initialContentSize = textScroller.content.sizeDelta;
-        GetComponent<VoskListener>().DisplayVoiceMessage += OnNewMessageRecognized;
+        GetComponent<VoskListener>().DisplayMessageOnChat += OnNewMessageRecognized;
     }
 
     private void OnDestroy()
     {
-        GetComponent<VoskListener>().DisplayVoiceMessage -= OnNewMessageRecognized;
+        GetComponent<VoskListener>().DisplayMessageOnChat -= OnNewMessageRecognized;
     }
 
     IEnumerator ActivateBackground()
@@ -45,9 +49,22 @@ public class TextUI : MonoBehaviour
     void OnNewMessageRecognized(object sender, VoskResultEventArgs args)
     {
         StartCoroutine(AddNewMessage("You", args.Result.Text));
+        currentChat = textMesh.text;
+        _ = character.Chat(args.Result.Text, SetAIText, OnAIAnswerComplete, true);
     }
 
-    public IEnumerator AddNewMessage(string speaker, string message)
+    void SetAIText(string text)
+    {
+        AIAnswer = text;
+        StartCoroutine(AddNewMessage(character.AIName, AIAnswer, true));
+    }
+
+    void OnAIAnswerComplete()
+    {
+        textMesh.text += "\n";
+    }
+
+    public IEnumerator AddNewMessage(string speaker, string message, bool isAIAnswer = false)
     {
         idleTime = 0.0f;
 
@@ -56,7 +73,15 @@ public class TextUI : MonoBehaviour
             yield return ActivateBackground();
         }
 
-        textMesh.text += speaker + ": " + message + "\n";
+        if (isAIAnswer)
+        {
+            textMesh.text = currentChat + speaker + ": " + message;
+        }
+        else
+        {
+            textMesh.text += speaker + ": " + message + "\n";
+        }
+
         ScrollIfNeeded();
     }
 

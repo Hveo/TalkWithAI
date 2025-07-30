@@ -1325,6 +1325,7 @@ MonoBehaviour:
   textContainer: {fileID: 1948971493}
   textMesh: {fileID: 352986179}
   textScroller: {fileID: 1948971491}
+  character: {fileID: 853927136}
   BGAlpha: 0.25
   TimeBeforeHiding: 10
 --- !u!114 &188069446
@@ -4806,8 +4807,12 @@ MonoBehaviour:
   stream: 1
   playerName: user
   AIName: Jenkins
-  prompt: In a military training room, user is practicing his aim and his squad leading.
-    You are part of the squad and follow his orders.
+  prompt: "Dans une salle d'entrainement militiaire, user s'entraine \xE0 bien viser
+    et a g\xE9rer son escouade. Tu en fait partie et tu suis ses ordres. Tu r\xE9ponds
+    de mani\xE8re concises et ne r\xE9pond pas aux questions trop personnelles.\n\nTu
+    es une IA de jeu vid\xE9o qui re\xE7oit des phrases d\u2019un joueur.\r\nSi la
+    phrase est une instruction, tu la convertis en commande JSON avec `action` et
+    `parameters`.\r\nSinon, tu r\xE9ponds normalement."
   setNKeepToPrompt: 1
   chat: []
   grammarString: 

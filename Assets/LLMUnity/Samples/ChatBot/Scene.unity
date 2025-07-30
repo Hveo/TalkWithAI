@@ -133,7 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 180020065}
   - component: {fileID: 180020066}
-  - component: {fileID: 180020067}
   m_Layer: 5
   m_Name: ChatBot
   m_TagString: Untagged
@@ -185,32 +184,6 @@ MonoBehaviour:
   bubbleSpacing: 10
   sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 3}
   stopButton: {fileID: 600245850}
---- !u!114 &180020067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 180020064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e0c8fd5e403aa94e9650ff4957a22ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _modelName: VoskModels\vosk-model-small-fr-0.22
-  _isWordMode: 1
-  _maxAlternatives: 0
-  _autoLoadModel: 1
-  _autoStart: 1
-  _audioChunkSize: 4096
-  _sampleRate: 16000
-  _audioClipBufferSeconds: 1
-  _listeningDevice: Microphone (Realtek High Definition Audio)
-  _debugOptions:
-    _logResults: 0
-    _logPartialResults: 0
-    _logModelLoad: 0
-    _logRecording: 0
 --- !u!1 &507661347
 GameObject:
   m_ObjectHideFlags: 0
@@ -1226,9 +1199,9 @@ MonoBehaviour:
   stream: 1
   playerName: user
   AIName: assistant
-  prompt: In a battlefield you're a soldier chatting with a new recruit. Things are
-    getting dangerous and you're in the middle of a fight. No time to waste in small
-    talk, just wait for orders to execute them.
+  prompt: "Dans une salle d'entrainement militaire, tu es sous les ordre de ton interlocuteur,
+    fait en sorte d'exectuer les ordres. Sois concis dans tes r\xE9ponses, pas de
+    fioriture. Et ne r\xE9pond pas aux questions trop personnels.\n"
   setNKeepToPrompt: 1
   chat: []
   grammarString: 

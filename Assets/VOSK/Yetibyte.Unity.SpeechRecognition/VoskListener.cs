@@ -143,7 +143,7 @@ namespace Yetibyte.Unity.SpeechRecognition
         #region Events
 
         public event EventHandler<VoskResultEventArgs> ResultFound;
-        public event EventHandler<VoskResultEventArgs> DisplayVoiceMessage;
+        public event EventHandler<VoskResultEventArgs> DisplayMessageOnChat;
         public event EventHandler<VoskPartialResultEventArgs> PartialResultFound;
 
         #endregion
@@ -277,7 +277,6 @@ namespace Yetibyte.Unity.SpeechRecognition
                 else
                     Debug.LogError("Error toggling listening mode.");
             }
-
         }
 
         [ContextMenu("Load Model")]
@@ -381,8 +380,7 @@ namespace Yetibyte.Unity.SpeechRecognition
             var handler = ResultFound;
             handler?.Invoke(this, voskResultEventArgs);
 
-            DisplayVoiceMessage.Invoke(this, voskResultEventArgs);
-
+            DisplayMessageOnChat.Invoke(this, voskResultEventArgs);
             //GetComponent<ChatBot>().SetVocalText(result.Text);
         }
 
