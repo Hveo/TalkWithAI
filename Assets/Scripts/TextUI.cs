@@ -19,11 +19,14 @@ public class TextUI : MonoBehaviour
     private Vector2 initialContentSize;
     private string AIAnswer = string.Empty;
     private string currentChat = string.Empty;
+    private bool isCommand = false;
+    private CommandListener commandListener;
 
     private void Start()
     {
         textMesh.text = string.Empty;
         initialContentSize = textScroller.content.sizeDelta;
+        commandListener = GetComponent<CommandListener>();
         GetComponent<VoskListener>().DisplayMessageOnChat += OnNewMessageRecognized;
     }
 
@@ -51,17 +54,33 @@ public class TextUI : MonoBehaviour
         StartCoroutine(AddNewMessage("You", args.Result.Text));
         currentChat = textMesh.text;
         _ = character.Chat(args.Result.Text, SetAIText, OnAIAnswerComplete, true);
+        isCommand = false;
     }
 
     void SetAIText(string text)
     {
         AIAnswer = text;
-        StartCoroutine(AddNewMessage(character.AIName, AIAnswer, true));
+
+        if (!AIAnswer.Contains("["))
+        {
+            StartCoroutine(AddNewMessage(character.AIName, AIAnswer, true));
+        }
+        else
+        {
+            isCommand = true;
+        }
     }
 
     void OnAIAnswerComplete()
     {
-        textMesh.text += "\n";
+        if (isCommand)
+        {
+            commandListener.ParseCommand(AIAnswer.ToLower(), character.gameObject);
+        }
+        else
+        {
+            textMesh.text += "\n";
+        }
     }
 
     public IEnumerator AddNewMessage(string speaker, string message, bool isAIAnswer = false)

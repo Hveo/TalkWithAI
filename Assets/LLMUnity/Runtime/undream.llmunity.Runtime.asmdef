@@ -1,6 +1,16 @@
 {
     "name": "undream.llmunity.Runtime",
+    "rootNamespace": "",
     "references": [
         "Cloud.Unum.USearch"
-    ]
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

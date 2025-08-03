@@ -1,20 +1,29 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 using System.Collections;
 
 [RequireComponent (typeof (Animator))]
 public class PlayerController : MonoBehaviour {
 
+	public Transform playerTransform;
 	public Transform rightGunBone;
 	public Transform leftGunBone;
 	public Arsenal[] arsenal;
+	public float BrakeStrength;
 
 	private Animator animator;
+	private NavMeshAgent navAgent;
+	private bool followPlayer = false;
+	private bool shouldStopMoving = false;
 
-	void Awake() {
+	void Awake() 
+	{
 		animator = GetComponent<Animator> ();
 		if (arsenal.Length > 0)
 			SetArsenal (arsenal[0].name);
-		}
+
+		navAgent = GetComponent<NavMeshAgent>();
+	}
 
 	public void SetArsenal(string name) {
 		foreach (Arsenal hand in arsenal) {
@@ -40,6 +49,43 @@ public class PlayerController : MonoBehaviour {
 				}
 		}
 	}
+
+    private void Update()
+    {
+        if (followPlayer)
+        {
+			navAgent.SetDestination(playerTransform.position);
+
+			if (Vector3.SqrMagnitude(playerTransform.position - transform.position) < 15)
+            {
+				navAgent.velocity = Vector3.Lerp(navAgent.velocity, Vector3.zero, Time.deltaTime * BrakeStrength);
+            }
+
+			animator.SetFloat("Speed", navAgent.velocity.magnitude);
+        }
+        else if (shouldStopMoving)
+        {
+			navAgent.velocity = Vector3.Lerp(navAgent.velocity, Vector3.zero, Time.deltaTime * BrakeStrength);
+            animator.SetFloat("Speed", navAgent.velocity.magnitude);
+
+            if (navAgent.velocity == Vector3.zero)
+            {
+				shouldStopMoving = false;
+            }
+
+		}
+	}
+
+    public void FollowPlayer()
+    {
+		followPlayer = true;
+    }
+
+	public void StopFollow()
+    {
+		followPlayer = false;
+		shouldStopMoving = true;
+    }
 
 	[System.Serializable]
 	public struct Arsenal {

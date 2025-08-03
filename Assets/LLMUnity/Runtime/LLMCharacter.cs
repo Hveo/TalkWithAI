@@ -138,6 +138,7 @@ namespace LLMUnity
         protected string chatTemplate;
         protected ChatTemplate template = null;
         /// \endcond
+        /// 
 
         /// <summary>
         /// The Unity Awake function that initializes the state before the application starts.
