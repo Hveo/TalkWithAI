@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,12 +9,14 @@ public class CommandListener : MonoBehaviour
     public List<VoiceCommand> VoiceCommands;
 
     private GameObject commandCaller;
+    private VoiceCommand? lastCommandCalled = null;
 
     [System.Serializable]
     public struct VoiceCommand
     {
         public List<string> Keywords;
         public UnityEvent FunctionToRun;
+        public UnityEvent UndoFunction;
     }
 
     public void ParseCommand(string Command, GameObject From)
@@ -30,8 +33,17 @@ public class CommandListener : MonoBehaviour
             {
                 commandCaller = From;
                 VoiceCommands[i].FunctionToRun.Invoke();
+                lastCommandCalled = VoiceCommands[i];
                 return;
             }
+        }
+    }
+
+    public void StopLastAction()
+    {
+        if (lastCommandCalled.HasValue)
+        {
+            lastCommandCalled.Value.UndoFunction.Invoke();
         }
     }
 
