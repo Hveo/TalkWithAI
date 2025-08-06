@@ -153,7 +153,16 @@
                     "name": "Talk",
                     "type": "Button",
                     "id": "601446ed-8de6-4cf2-853a-2267ca2a03ac",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MenuTalk",
+                    "type": "Button",
+                    "id": "06aeab4f-496d-407d-a285-9998477c7194",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -531,6 +540,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Talk",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d4b40910-853e-4a8c-9dff-e149009647dc",
+                    "path": "<Mouse>/forwardButton",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MenuTalk",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

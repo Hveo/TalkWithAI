@@ -259,9 +259,12 @@ namespace InfimaGames.LowPolyShooterPack
 		public override Vector2 GetInputLook() => axisLook;
 
 		public VoskListener VOSKListener;
+		public VoskListener MenuCommandListener;
 		private AudioSettings settings = new AudioSettings(1.0f, 0.0f, true);
 		public AudioClip TalkieIn;
 		public AudioClip TalkieOut;
+		public AudioClip MenuCommandIn;
+		public AudioClip MenuCommandOut;
 
 		#endregion
 
@@ -653,10 +656,32 @@ namespace InfimaGames.LowPolyShooterPack
             }
         }
 
-		/// <summary>
-		/// Inspect.
-		/// </summary>
-		public void OnTryInspect(InputAction.CallbackContext context)
+		public void OnTryMenuTalk(InputAction.CallbackContext context)
+		{
+			if (!MenuCommandListener)
+				return;
+
+            IAudioManagerService audioService = ServiceLocator.Current.Get<IAudioManagerService>();
+            switch (context)
+            {
+                case { phase: InputActionPhase.Started }:
+                    MenuCommandListener.StartListening();
+                    audioService?.PlayOneShot(MenuCommandIn, settings);
+                    break;
+
+                case { phase: InputActionPhase.Canceled }:
+                    MenuCommandListener.RequestStopListening();
+                    audioService?.PlayOneShot(MenuCommandOut, settings);
+                    break;
+
+                default: break;
+            }
+        }
+
+        /// <summary>
+        /// Inspect.
+        /// </summary>
+        public void OnTryInspect(InputAction.CallbackContext context)
 		{
 			//Block while the cursor is unlocked.
 			if (!cursorLocked)

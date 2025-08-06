@@ -36,6 +36,10 @@ namespace Yetibyte.Unity.SpeechRecognition
         private bool _isWordMode = true;
 
         [SerializeField]
+        [Tooltip("Setup this listener to listen and send event for the UI command listener")]
+        private bool _listenMenuCommand = false;
+
+        [SerializeField]
         [Min(0)]
         private int _maxAlternatives = 0;
 
@@ -144,6 +148,7 @@ namespace Yetibyte.Unity.SpeechRecognition
 
         public event EventHandler<VoskResultEventArgs> ResultFound;
         public event EventHandler<VoskResultEventArgs> DisplayMessageOnChat;
+        public event EventHandler<VoskResultEventArgs> OnUICommandAsked;
         public event EventHandler<VoskPartialResultEventArgs> PartialResultFound;
 
         #endregion
@@ -380,7 +385,14 @@ namespace Yetibyte.Unity.SpeechRecognition
             var handler = ResultFound;
             handler?.Invoke(this, voskResultEventArgs);
 
-            DisplayMessageOnChat.Invoke(this, voskResultEventArgs);
+            if (_listenMenuCommand)
+            {
+                OnUICommandAsked.Invoke(this, voskResultEventArgs);
+            }
+            else
+            {
+                DisplayMessageOnChat.Invoke(this, voskResultEventArgs);
+            }
             //GetComponent<ChatBot>().SetVocalText(result.Text);
         }
 
